@@ -10,6 +10,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button btnZero, btnOne, btnTwo, btnThree, btnFour, btnFive, btnSix, btnSeven, btnEight, btnNine, btnPlus, btnMinus, btnMultiply, btnDivide, btnReset, btnCalc;
     private TextView tvResult;
+    private String operation;
+    private int firstNum = -1, secondNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,20 +59,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnPlus:
+                operation = "+";
+                tvResult.setText(tvResult.getText().toString() + " + ");
                 break;
             case R.id.btnMinus:
+                operation = "-";
+                tvResult.setText(tvResult.getText().toString() + " - ");
                 break;
             case R.id.btnMultiply:
+                operation = "x";
+                tvResult.setText(tvResult.getText().toString() + " x ");
                 break;
             case R.id.btnDivide:
+                operation = "%";
+                tvResult.setText(tvResult.getText().toString() + " % ");
                 break;
             case R.id.btnReset:
+                tvResult.setText("0");
+                firstNum = -1;
                 break;
             case R.id.btnCalculate:
+                switch (operation) {
+                    case "+":
+                        int sum = firstNum + secondNum;
+                        tvResult.setText(tvResult.getText().toString() + " = " + sum);
+                        break;
+                    case "-":
+                        int sub = firstNum - secondNum;
+                        tvResult.setText(tvResult.getText().toString() + " = " + sub);
+                        break;
+                    case "x":
+                        int mul = firstNum * secondNum;
+                        tvResult.setText(tvResult.getText().toString() + " = " + mul);
+                        break;
+                    case "%":
+                        int divide = firstNum / secondNum;
+                        tvResult.setText(tvResult.getText().toString() + " = " + divide);
+                        break;
+                }
                 break;
             default:
                 int num = Integer.parseInt(((Button) v).getText().toString());
-
+                if (firstNum == -1) {
+                    firstNum = num;
+                    tvResult.setText(Integer.toString(firstNum));
+                } else {
+                    secondNum = num;
+                    tvResult.setText(tvResult.getText().toString() + secondNum);
+                }
                 break;
         }
     }
